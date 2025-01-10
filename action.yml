@@ -1,23 +1,27 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: Spoliatus
+description:
+  GitHub action which extracts the minor and patch version of a SemVer version
+  object.
+author: Communi-Suggestu
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: heart
-  color: red
+  icon: command
+  color: green
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
-    required: true
-    default: '1000'
+  version:
+    description: The version to extract the minor and patch version from.
 
 # Define your outputs here.
 outputs:
-  time:
-    description: Your output description here
+  minor:
+    description: The minor version.
+  patch:
+    description: The patch version.
+  joined:
+    description: The minor and patch version joined by a dot.
 
 runs:
   using: node20
