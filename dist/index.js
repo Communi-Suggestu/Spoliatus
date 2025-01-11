@@ -27246,13 +27246,13 @@ var coreExports = requireCore();
 async function run() {
     try {
         const version = coreExports.getInput('version');
-        const parts = version.split('\\.');
+        const parts = version.split('.');
         if (parts.length < 1) {
             coreExports.setFailed(`Invalid version format: ${version}`);
             return;
         }
-        const minor = version[1];
-        const patch = version.length > 1 ? version[2] : 0;
+        const minor = parts[1];
+        const patch = parts.length > 1 ? parts[2] : 0;
         coreExports.setOutput('minor', minor);
         coreExports.setOutput('patch', patch);
         coreExports.setOutput('joined', `${minor}.${patch}`);

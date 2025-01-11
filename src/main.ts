@@ -8,15 +8,14 @@ import * as core from '@actions/core'
 export async function run(): Promise<void> {
   try {
     const version = core.getInput('version')
-    const parts = version.split('\\.')
-
+    const parts = version.split('.')
     if (parts.length < 1) {
       core.setFailed(`Invalid version format: ${version}`)
       return
     }
 
-    const minor = version[1]
-    const patch = version.length > 1 ? version[2] : 0
+    const minor = parts[1]
+    const patch = parts.length > 1 ? parts[2] : 0
 
     core.setOutput('minor', minor)
     core.setOutput('patch', patch)
