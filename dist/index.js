@@ -27246,7 +27246,7 @@ var coreExports = requireCore();
 async function run() {
     try {
         const version = coreExports.getInput('version');
-        const parts = version.split('.');
+        const parts = version.split('\\.');
         if (parts.length < 1) {
             coreExports.setFailed(`Invalid version format: ${version}`);
             return;

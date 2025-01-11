@@ -8,7 +8,7 @@ import * as core from '@actions/core'
 export async function run(): Promise<void> {
   try {
     const version = core.getInput('version')
-    const parts = version.split('.')
+    const parts = version.split('\\.')
 
     if (parts.length < 1) {
       core.setFailed(`Invalid version format: ${version}`)
