@@ -15,7 +15,7 @@ jest.unstable_mockModule('@actions/core', () => core)
 // mocks are used in place of any actual dependencies.
 const { run } = await import('../src/main.js')
 
-describe('main.ts', () => {
+describe('Obfuscated versions', () => {
   beforeEach(() => {
     // Set the action's inputs as return values from core.getInput().
     core.getInput.mockImplementation(() => '1.2.3')
@@ -58,6 +58,124 @@ describe('main.ts', () => {
       'joined',
       // Simple regex to match a time string in the format HH:MM:SS.
       expect.stringMatching('2.3')
+    )
+  })
+})
+
+describe('Unobfuscated short versions', () => {
+  beforeEach(() => {
+    // Set the action's inputs as return values from core.getInput().
+    core.getInput.mockImplementation(() => '26.1')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('Returns the correct major', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      1,
+      'major',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('26')
+    )
+  })
+
+  it('Returns the correct minor', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      2,
+      'minor',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('1')
+    )
+  })
+
+  it('Returns the correct patch', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      3,
+      'patch',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('0')
+    )
+  })
+
+  it('Returns the correct joined', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      4,
+      'joined',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('26.1.0')
+    )
+  })
+})
+
+describe('Unobfuscated long versions', () => {
+  beforeEach(() => {
+    // Set the action's inputs as return values from core.getInput().
+    core.getInput.mockImplementation(() => '26.1.4')
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('Returns the correct major', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      1,
+      'major',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('26')
+    )
+  })
+
+  it('Returns the correct minor', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      2,
+      'minor',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('1')
+    )
+  })
+
+  it('Returns the correct patch', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      3,
+      'patch',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('4')
+    )
+  })
+
+  it('Returns the correct joined', async () => {
+    await run()
+
+    // Verify the time output was set.
+    expect(core.setOutput).toHaveBeenNthCalledWith(
+      4,
+      'joined',
+      // Simple regex to match a time string in the format HH:MM:SS.
+      expect.stringMatching('26.1.4')
     )
   })
 })
