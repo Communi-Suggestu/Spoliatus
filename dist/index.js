@@ -27246,22 +27246,58 @@ var coreExports = requireCore();
 async function run() {
     try {
         const version = coreExports.getInput('version');
-        const parts = version.split('.');
-        if (parts.length < 1) {
-            coreExports.setFailed(`Invalid version format: ${version}`);
+        if (isObfuscated(version)) {
+            runObfuscated(version);
             return;
         }
-        const minor = parts[1];
-        const patch = parts.length > 1 ? parts[2] : 0;
-        coreExports.setOutput('minor', minor);
-        coreExports.setOutput('patch', patch);
-        coreExports.setOutput('joined', `${minor}.${patch}`);
+        runUnobfuscated(version);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
         if (error instanceof Error)
             coreExports.setFailed(error.message);
     }
+}
+function runObfuscated(version) {
+    const parts = version.split('.');
+    if (parts.length < 1) {
+        coreExports.setFailed(`Invalid version format: ${version}`);
+        return;
+    }
+    const minor = parts[1];
+    const patch = parts.length > 1 ? parts[2] : 0;
+    coreExports.setOutput('minor', minor);
+    coreExports.setOutput('patch', patch);
+    coreExports.setOutput('joined', `${minor}.${patch}`);
+}
+function runUnobfuscated(version) {
+    const parts = version.split('.');
+    if (parts.length < 1) {
+        coreExports.setFailed(`Invalid version format: ${version}`);
+        return;
+    }
+    const major = parts[0];
+    const minor = parts[1];
+    let patch = '0';
+    if (parts.length > 2) {
+        patch = parts[2];
+    }
+    coreExports.setOutput('major', major);
+    coreExports.setOutput('minor', minor);
+    coreExports.setOutput('patch', patch);
+    coreExports.setOutput('joined', `${major}.${minor}.${patch}`);
+}
+function isObfuscated(version) {
+    if (version.length < 3) {
+        return true;
+    }
+    if (version.substring(2, 3) != '.') {
+        return true;
+    }
+    const parts = version.split('.');
+    const majorPart = parts[0];
+    const major = Number.parseInt(majorPart);
+    return major < 26;
 }
 
 /**
